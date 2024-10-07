@@ -173,6 +173,30 @@ class Feedbacker_Run{
 	        'dashicons-feedback',
 	        20
 	    );
+	    add_submenu_page(
+	        'feedbacker',
+	        'Доступні модулі',
+	        'Доступні модулі',
+	        'manage_options',
+	        'feedbacker-modules',
+	        array($this, 'feedbacker_modules_page')
+	    );
+	    add_submenu_page(
+	        'feedbacker',
+	        'Список користувачів',
+	        'Список користувачів',
+	        'manage_options',
+	        'feedbacker-users',
+	        array($this, 'feedbacker_users_page')
+	    );
+	    add_submenu_page(
+	        'feedbacker',
+	        'Публікація коментаря',
+	        'Публікація коментаря',
+	        'manage_options',
+	        'feedbacker-comments',
+	        array($this, 'feedbacker_comments_page')
+	    );
 	}
 
 	public function feedbacker_admin_page() {
