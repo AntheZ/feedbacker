@@ -13,20 +13,25 @@ class Epicentrk_Module {
         @$dom->loadHTML($html);
         $xpath = new DOMXPath($dom);
 
-        $title = $xpath->query('//h1[@class="p-title"]')->item(0)->nodeValue ?? '';
-        $description = $xpath->query('//div[@class="p-block__text"]')->item(0)->nodeValue ?? '';
-        $characteristics = $xpath->query('//div[@class="p-characteristics__item"]');
+        $title = $xpath->query('//h1[@data-product-name]')->item(0)->nodeValue ?? '';
 
-        $char_text = "";
-        foreach ($characteristics as $char) {
-            $char_text .= trim($char->nodeValue) . "\n";
-        }
+        $description = $this->get_section_content($xpath, 'Опис', $title);
+        $characteristics = $this->get_section_content($xpath, 'Характеристики', $title);
 
         $result = "Назва: " . trim($title) . "\n\n";
-        $result .= "Опис: " . trim($description) . "\n\n";
-        $result .= "Характеристики:\n" . trim($char_text);
+        $result .= "Опис:\n" . trim($description) . "\n\n";
+        $result .= "Характеристики:\n" . trim($characteristics);
 
         return $result;
+    }
+
+    private function get_section_content($xpath, $section_name, $product_name) {
+        $query = "//div[contains(text(), '{$section_name} {$product_name}')]/ancestor::div[1]";
+        $node = $xpath->query($query)->item(0);
+        if ($node) {
+            return $node->nodeValue;
+        }
+        return '';
     }
 
     private function fetch_url($url) {
