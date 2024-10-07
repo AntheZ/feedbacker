@@ -32,7 +32,7 @@ class Epicentrk_Module {
             $content = '';
             foreach ($node->childNodes as $child) {
                 if ($child->nodeType === XML_ELEMENT_NODE) {
-                    if ($child->tagName === 'p') {
+                    if ($child->tagName === 'p' || $child->tagName === 'span') {
                         $content .= $child->nodeValue . "\n\n";
                     } elseif ($child->tagName === 'ul') {
                         foreach ($child->childNodes as $li) {
