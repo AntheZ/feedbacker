@@ -16,10 +16,13 @@ class AI_Review_Generator {
     }
 
     private function create_prompt($product_info) {
-        // Створення промпту на основі інформації про продукт
-        $prompt = "Створи позитивний відгук про цей товар: " . $product_info['title'] . "\n";
-        $prompt .= "Характеристики:\n" . $product_info['characteristics'] . "\n";
-        $prompt .= "Опис:\n" . $product_info['description'] . "\n";
+        $title = isset($product_info['title']) ? $product_info['title'] : 'Невідомий продукт';
+        $characteristics = isset($product_info['characteristics']) ? $product_info['characteristics'] : 'Характеристики відсутні';
+        $description = isset($product_info['description']) ? $product_info['description'] : 'Опис відсутній';
+
+        $prompt = "Створи позитивний відгук про цей товар: " . $title . "\n";
+        $prompt .= "Характеристики:\n" . $characteristics . "\n";
+        $prompt .= "Опис:\n" . $description . "\n";
         $prompt .= "Відгук має бути максимально близьким до людського, позитивного спрямування, згадати ключові характеристики товару.";
         return $prompt;
     }
