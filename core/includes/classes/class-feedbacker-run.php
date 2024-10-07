@@ -188,7 +188,7 @@ class Feedbacker_Run{
 	            $epicentrk = new Epicentrk_Module();
 	            $product_info = $epicentrk->process_url($product_url);
 
-	            require_once FEEDBACKER_PLUGIN_DIR . 'integrations/ai_review_generator.php';
+	            require_once FEEDBACKER_PLUGIN_DIR . 'core/includes/integrations/ai_review_generator.php';
 	            $ai_generator = new AI_Review_Generator();
 	            $ai_review = $ai_generator->generate_review($product_info);
 	        } else {
