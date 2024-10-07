@@ -213,6 +213,13 @@ class Feedbacker_Run{
 	                <?php endforeach; ?>
 	            </tbody>
 	        </table>
+
+	        <h2>Публікація коментаря</h2>
+	        <form method="post" action="">
+	            <input type="text" name="product_url" placeholder="URL посилання на сторінку товару" style="width: 300px;">
+	            <input type="submit" name="publish_comment" value="Опублікувати коментар" class="button button-primary">
+	            <span>Статус: <?php echo $this->get_comment_status(); ?></span>
+	        </form>
 	    </div>
 	    <?php
 	}
@@ -231,6 +238,12 @@ class Feedbacker_Run{
 	    }
 	    
 	    return $modules;
+	}
+
+	private function get_comment_status() {
+	    // Тут має бути логіка визначення статусу коментаря
+	    // Наразі повертаємо заглушку
+	    return "функціонал поки не працює";
 	}
 
 }
