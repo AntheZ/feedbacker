@@ -178,6 +178,17 @@ class Feedbacker_Run{
 	    $modules = $this->get_modules_list();
 	    $current_user_info = FEEDBACKER()->helpers->get_current_user_info();
 	    $all_users_info = FEEDBACKER()->helpers->get_all_users_info();
+		$product_info = '';
+		if (isset($_POST['publish_comment'])) {
+			$product_url = sanitize_text_field($_POST['product_url']);
+			if (strpos($product_url, 'epicentrk.ua') !== false) {
+				require_once FEEDBACKER_PLUGIN_DIR . 'modules/epicentrk.php';
+				$epicentrk = new Epicentrk_Module();
+				$product_info = $epicentrk->process_url($product_url);
+			} else {
+				$product_info = "URL не належить до epicentrk.ua";
+			}
+		}
 	    ?>
 	    <div class="wrap">
 	        <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
@@ -220,6 +231,10 @@ class Feedbacker_Run{
 	            <input type="submit" name="publish_comment" value="Опублікувати коментар" class="button button-primary">
 	            <span>Статус: <?php echo $this->get_comment_status(); ?></span>
 	        </form>
+			<?php if (!empty($product_info)): ?>
+            <h3>Інформація про товар:</h3>
+            <textarea rows="10" cols="100" readonly><?php echo esc_textarea($product_info); ?></textarea>
+        <?php endif; ?>
 	    </div>
 	    <?php
 	}
