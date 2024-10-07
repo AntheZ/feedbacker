@@ -209,9 +209,15 @@ class Feedbacker_Run{
 	        <h2>Інформація про поточного користувача:</h2>
 	        <p>ID користувача: <?php echo $current_user_info['user_id']; ?></p>
 	        <p>Статус підписки: <?php echo $current_user_info['subscription_status']; ?></p>
-	    </div>
-	    <?php
-	}
+			
+			<form method="post">
+            <input type="submit" name="create_tables" value="Створити таблиці в БД" class="button button-primary">
+            <input type="submit" name="clear_tables" value="Очистити таблиці в БД" class="button button-secondary">
+        </form>
+    </div>
+    <?php
+    $this->handle_db_actions();
+}
 
 	public function feedbacker_modules_page() {
 	    $modules = $this->get_modules_list();
@@ -326,6 +332,16 @@ class Feedbacker_Run{
 	public function chatgpt_api_key_callback() {
 	    $api_key = get_option('chatgpt_api_key');
 	    echo '<input type="text" name="chatgpt_api_key" value="' . esc_attr($api_key) . '" />';
+	}
+
+	public function handle_db_actions() {
+	    $db_manager = new Feedbacker_DB_Manager();
+	    if (isset($_POST['create_tables'])) {
+	        $db_manager->create_db_tables();
+	    }
+	    if (isset($_POST['clear_tables'])) {
+	        $db_manager->clear_db_tables();
+	    }
 	}
 
 }

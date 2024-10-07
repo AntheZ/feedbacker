@@ -123,7 +123,7 @@ if ( ! class_exists( 'Feedbacker' ) ) :
 		private function includes() {
 			require_once FEEDBACKER_PLUGIN_DIR . 'core/includes/classes/class-feedbacker-helpers.php';
 			require_once FEEDBACKER_PLUGIN_DIR . 'core/includes/classes/class-feedbacker-settings.php';
-
+			require_once FEEDBACKER_PLUGIN_DIR . 'core/includes/classes/class-feedbacker-db-manager.php';
 			require_once FEEDBACKER_PLUGIN_DIR . 'core/includes/classes/class-feedbacker-run.php';
 		}
 
