@@ -74,6 +74,7 @@ class Feedbacker_Run{
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_backend_scripts_and_styles' ), 20 );
 		add_action( 'plugins_loaded', array( $this, 'add_wp_webhooks_integrations' ), 9 );
 	
+		add_action('admin_menu', array($this, 'feedbacker_add_admin_menu'));
 	}
 
 	/**
@@ -159,6 +160,27 @@ class Feedbacker_Run{
 				) );
 			}
 		}
+	}
+
+	public function feedbacker_add_admin_menu() {
+	    add_menu_page(
+	        'Feedbacker',
+	        'Feedbacker',
+	        'manage_options',
+	        'feedbacker',
+	        array($this, 'feedbacker_admin_page'),
+	        'dashicons-feedback',
+	        20
+	    );
+	}
+
+	public function feedbacker_admin_page() {
+	    ?>
+	    <div class="wrap">
+	        <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+	        <p>Ласкаво просимо до адміністративної панелі Feedbacker!</p>
+	    </div>
+	    <?php
 	}
 
 }
