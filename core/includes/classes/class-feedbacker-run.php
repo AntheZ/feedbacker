@@ -176,26 +176,7 @@ class Feedbacker_Run{
 	}
 
 	public function feedbacker_admin_page() {
-	    $modules = $this->get_modules_list();
 	    $current_user_info = FEEDBACKER()->helpers->get_current_user_info();
-	    $all_users_info = FEEDBACKER()->helpers->get_all_users_info();
-	    $product_info = '';
-	    $ai_review = '';
-	    if (isset($_POST['publish_comment'])) {
-	        $product_url = sanitize_text_field($_POST['product_url']);
-	        if (strpos($product_url, 'epicentrk.ua') !== false) {
-	            require_once FEEDBACKER_PLUGIN_DIR . 'modules/epicentrk.php';
-	            $epicentrk = new Epicentrk_Module();
-	            $product_info = $epicentrk->process_url($product_url);
-
-	            require_once FEEDBACKER_PLUGIN_DIR . 'core/includes/integrations/ai_review_generator.php';
-	            $ai_generator = new AI_Review_Generator();
-	            $ai_review = $ai_generator->generate_review($product_info);
-	        } else {
-	            $product_info = "URL не належить до epicentrk.ua";
-	        }
-	    }
-	    // Решта коду залишається без змін
 	    ?>
 	    <div class="wrap">
 	        <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
@@ -204,15 +185,29 @@ class Feedbacker_Run{
 	        <h2>Інформація про поточного користувача:</h2>
 	        <p>ID користувача: <?php echo $current_user_info['user_id']; ?></p>
 	        <p>Статус підписки: <?php echo $current_user_info['subscription_status']; ?></p>
-	        
-	        <h2>Доступні модулі:</h2>
+	    </div>
+	    <?php
+	}
+
+	public function feedbacker_modules_page() {
+	    $modules = $this->get_modules_list();
+	    ?>
+	    <div class="wrap">
+	        <h1>Доступні модулі</h1>
 	        <ul>
 	            <?php foreach ($modules as $module): ?>
 	                <li><?php echo esc_html($module); ?></li>
 	            <?php endforeach; ?>
 	        </ul>
-	        
-	        <h2>Список всіх користувачів:</h2>
+	    </div>
+	    <?php
+	}
+
+	public function feedbacker_users_page() {
+	    $all_users_info = FEEDBACKER()->helpers->get_all_users_info();
+	    ?>
+	    <div class="wrap">
+	        <h1>Список користувачів</h1>
 	        <table class="wp-list-table widefat fixed striped">
 	            <thead>
 	                <tr>
@@ -231,8 +226,30 @@ class Feedbacker_Run{
 	                <?php endforeach; ?>
 	            </tbody>
 	        </table>
+	    </div>
+	    <?php
+	}
 
-	        <h2>Публікація коментаря</h2>
+	public function feedbacker_comments_page() {
+	    $product_info = '';
+	    $ai_review = '';
+	    if (isset($_POST['publish_comment'])) {
+	        $product_url = sanitize_text_field($_POST['product_url']);
+	        if (strpos($product_url, 'epicentrk.ua') !== false) {
+	            require_once FEEDBACKER_PLUGIN_DIR . 'modules/epicentrk.php';
+	            $epicentrk = new Epicentrk_Module();
+	            $product_info = $epicentrk->process_url($product_url);
+
+	            require_once FEEDBACKER_PLUGIN_DIR . 'core/includes/integrations/ai_review_generator.php';
+	            $ai_generator = new AI_Review_Generator();
+	            $ai_review = $ai_generator->generate_review($product_info);
+	        } else {
+	            $product_info = "URL не належить до epicentrk.ua";
+	        }
+	    }
+	    ?>
+	    <div class="wrap">
+	        <h1>Публікація коментаря</h1>
 	        <form method="post" action="">
 	            <input type="text" name="product_url" placeholder="URL посилання на сторінку товару" style="width: 300px;">
 	            <input type="submit" name="publish_comment" value="Опублікувати коментар" class="button button-primary">
