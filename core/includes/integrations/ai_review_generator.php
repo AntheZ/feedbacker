@@ -56,6 +56,8 @@ class AI_Review_Generator {
     private function process_response($response) {
         if (isset($response['choices'][0]['message']['content'])) {
             return $response['choices'][0]['message']['content'];
+        } elseif (isset($response['error'])) {
+            return 'Помилка API: ' . $response['error']['message'];
         }
         return 'Не вдалося згенерувати відгук.';
     }
