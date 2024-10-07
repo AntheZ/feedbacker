@@ -29,7 +29,24 @@ class Epicentrk_Module {
         $query = "//div[contains(text(), '{$section_name} {$product_name}')]/ancestor::div[1]";
         $node = $xpath->query($query)->item(0);
         if ($node) {
-            return $node->nodeValue;
+            $content = '';
+            foreach ($node->childNodes as $child) {
+                if ($child->nodeType === XML_ELEMENT_NODE) {
+                    if ($child->tagName === 'p') {
+                        $content .= $child->nodeValue . "\n\n";
+                    } elseif ($child->tagName === 'ul') {
+                        foreach ($child->childNodes as $li) {
+                            if ($li->nodeType === XML_ELEMENT_NODE && $li->tagName === 'li') {
+                                $content .= "- " . $li->nodeValue . "\n";
+                            }
+                        }
+                        $content .= "\n";
+                    } else {
+                        $content .= $child->nodeValue . "\n";
+                    }
+                }
+            }
+            return trim($content);
         }
         return '';
     }
