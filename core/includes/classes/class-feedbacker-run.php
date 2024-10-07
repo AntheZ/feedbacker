@@ -75,6 +75,7 @@ class Feedbacker_Run{
 		add_action( 'plugins_loaded', array( $this, 'add_wp_webhooks_integrations' ), 9 );
 	
 		add_action('admin_menu', array($this, 'feedbacker_add_admin_menu'));
+		add_action('admin_init', array($this, 'register_chatgpt_api_key_setting'));
 	}
 
 	/**
@@ -235,6 +236,10 @@ class Feedbacker_Run{
             <h3>Інформація про товар:</h3>
             <textarea rows="10" cols="100" readonly><?php echo esc_textarea($product_info); ?></textarea>
         <?php endif; ?>
+        <?php if (!empty($ai_review)): ?>
+            <h3>Згенерований ШІ відгук:</h3>
+            <textarea rows="10" cols="100" readonly><?php echo esc_textarea($ai_review); ?></textarea>
+        <?php endif; ?>
 	    </div>
 	    <?php
 	}
@@ -259,6 +264,21 @@ class Feedbacker_Run{
 	    // Тут має бути логіка визначення статусу коментаря
 	    // Наразі повертаємо заглушку
 	    return "функціонал поки не працює";
+	}
+
+	public function register_chatgpt_api_key_setting() {
+	    register_setting('general', 'chatgpt_api_key');
+	    add_settings_field(
+	        'chatgpt_api_key',
+	        'ChatGPT API Key',
+	        array($this, 'chatgpt_api_key_callback'),
+	        'general'
+	    );
+	}
+
+	public function chatgpt_api_key_callback() {
+	    $api_key = get_option('chatgpt_api_key');
+	    echo '<input type="text" name="chatgpt_api_key" value="' . esc_attr($api_key) . '" />';
 	}
 
 }
