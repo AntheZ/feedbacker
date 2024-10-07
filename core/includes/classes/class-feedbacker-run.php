@@ -175,12 +175,36 @@ class Feedbacker_Run{
 	}
 
 	public function feedbacker_admin_page() {
+	    $modules = $this->get_modules_list();
 	    ?>
 	    <div class="wrap">
 	        <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
 	        <p>Ласкаво просимо до адміністративної панелі Feedbacker!</p>
+	        
+	        <h2>Доступні модулі:</h2>
+	        <ul>
+	            <?php foreach ($modules as $module): ?>
+	                <li><?php echo esc_html($module); ?></li>
+	            <?php endforeach; ?>
+	        </ul>
 	    </div>
 	    <?php
+	}
+
+	public function get_modules_list() {
+	    $modules_dir = FEEDBACKER_PLUGIN_DIR . 'modules/';
+	    $modules = array();
+	    
+	    if (is_dir($modules_dir)) {
+	        $files = scandir($modules_dir);
+	        foreach ($files as $file) {
+	            if (pathinfo($file, PATHINFO_EXTENSION) === 'php') {
+	                $modules[] = pathinfo($file, PATHINFO_FILENAME);
+	            }
+	        }
+	    }
+	    
+	    return $modules;
 	}
 
 }
