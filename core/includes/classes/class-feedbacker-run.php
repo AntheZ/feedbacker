@@ -176,10 +176,16 @@ class Feedbacker_Run{
 
 	public function feedbacker_admin_page() {
 	    $modules = $this->get_modules_list();
+	    $current_user_info = FEEDBACKER()->helpers->get_current_user_info();
+	    $all_users_info = FEEDBACKER()->helpers->get_all_users_info();
 	    ?>
 	    <div class="wrap">
 	        <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
 	        <p>Ласкаво просимо до адміністративної панелі Feedbacker!</p>
+	        
+	        <h2>Інформація про поточного користувача:</h2>
+	        <p>ID користувача: <?php echo $current_user_info['user_id']; ?></p>
+	        <p>Статус підписки: <?php echo $current_user_info['subscription_status']; ?></p>
 	        
 	        <h2>Доступні модулі:</h2>
 	        <ul>
@@ -187,6 +193,26 @@ class Feedbacker_Run{
 	                <li><?php echo esc_html($module); ?></li>
 	            <?php endforeach; ?>
 	        </ul>
+	        
+	        <h2>Список всіх користувачів:</h2>
+	        <table class="wp-list-table widefat fixed striped">
+	            <thead>
+	                <tr>
+	                    <th>ID</th>
+	                    <th>Email</th>
+	                    <th>Статус підписки</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <?php foreach ($all_users_info as $user): ?>
+	                    <tr>
+	                        <td><?php echo $user['user_id']; ?></td>
+	                        <td><?php echo $user['user_email']; ?></td>
+	                        <td><?php echo $user['subscription_status']; ?></td>
+	                    </tr>
+	                <?php endforeach; ?>
+	            </tbody>
+	        </table>
 	    </div>
 	    <?php
 	}
