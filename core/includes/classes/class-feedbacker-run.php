@@ -304,7 +304,7 @@ class Feedbacker_Run{
 	    if (is_dir($modules_dir)) {
 	        $files = scandir($modules_dir);
 	        foreach ($files as $file) {
-	            if (pathinfo($file, PATHINFO_EXTENSION) === 'php') {
+	            if (pathinfo($file, PATHINFO_EXTENSION) === 'php' && $file !== 'index.php') {
 	                $modules[] = pathinfo($file, PATHINFO_FILENAME);
 	            }
 	        }
