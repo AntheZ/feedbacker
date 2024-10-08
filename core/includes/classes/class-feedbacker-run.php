@@ -266,7 +266,7 @@ class Feedbacker_Run{
 	    if (isset($_POST['publish_comment'])) {
 	        $product_url = sanitize_text_field($_POST['product_url']);
 	        if (strpos($product_url, 'epicentrk.ua') !== false) {
-	            require_once FEEDBACKER_PLUGIN_DIR . 'modules/epicentrk.php';
+	            require_once FEEDBACKER_PLUGIN_DIR . 'core/modules/epicentrk.php';
 	            $epicentrk = new Epicentrk_Module();
 	            $product_info = $epicentrk->process_url($product_url);
 
@@ -298,7 +298,7 @@ class Feedbacker_Run{
 	}
 
 	public function get_modules_list() {
-	    $modules_dir = FEEDBACKER_PLUGIN_DIR . 'modules/';
+	    $modules_dir = FEEDBACKER_PLUGIN_DIR . 'core/modules/';
 	    $modules = array();
 	    
 	    if (is_dir($modules_dir)) {
